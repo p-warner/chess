@@ -1,0 +1,10 @@
+
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ api.php/$1 [L,QSA]
+
+
+<IfModule mod_php5.c>
+    php_flag display_errors on
+</IfModule>
