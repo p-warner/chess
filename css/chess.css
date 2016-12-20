@@ -20,20 +20,20 @@ ul.players li:nth-child(2){float:right; color:#fff; background:#222; border:1px 
 
 [data-valid*="true"]:after{content:''; display:block; width:100%; height:100%; background:rgba(0,255,0,.5) center center no-repeat; position:absolute; top:0; bottom:0; left:0; right:0;}
 
-[data-piece*="w_"],[data-piece*="b_"]{display:block; width:100%; height:100%; background-size:cover; background-position: center center; background-size:cover;}
-[data-piece^="w_p"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg);}
-[data-piece^="w_r"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg);}
-[data-piece^="w_n"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg);}
-[data-piece^="w_b"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg);}
-[data-piece^="w_q"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg);}
-[data-piece^="w_k"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg);}
+[data-piece*="w"],[data-piece*="b"]{display:block; width:100%; height:100%; background-size:cover; background-position: center center;}
+[data-piece^="wp"]{background-image:url(../svg/wp.svg);}
+[data-piece^="wr"]{background-image:url(../svg/wr.svg);}
+[data-piece^="wn"]{background-image:url(../svg/wn.svg);}
+[data-piece^="wb"]{background-image:url(../svg/wb.svg);}
+[data-piece^="wq"]{background-image:url(../svg/wq.svg);}
+[data-piece^="wk"]{background-image:url(../svg/wk.svg);}
 
-[data-piece^="b_p"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt45.svg);}
-[data-piece^="b_r"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg);}
-[data-piece^="b_n"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg);}
-[data-piece^="b_b"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg);}
-[data-piece^="b_q"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg);}
-[data-piece^="b_k"]{background-image:url(https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg);}
+[data-piece^="bp"]{background-image:url(../svg/bp.svg);}
+[data-piece^="br"]{background-image:url(../svg/br.svg);}
+[data-piece^="bn"]{background-image:url(../svg/bn.svg);}
+[data-piece^="bb"]{background-image:url(../svg/bb.svg);}
+[data-piece^="bq"]{background-image:url(../svg/bq.svg);}
+[data-piece^="bk"]{background-image:url(../svg/bk.svg);}
 
 /*Featherligh override*/
 .featherlight .featherlight-content{background:rgba(0,0,0,.85); padding:3rem; border:.5rem solid #eee;}
