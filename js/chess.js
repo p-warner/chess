@@ -19,7 +19,7 @@ $(document).ready(function(){
 */
 
 /*
-* Adds listeners to pieces.
+* Adds listeners to pieces and squares
 * @param None
 * @return None
 */
@@ -41,6 +41,7 @@ function addListeners(){
     $('[data-valid]').on('click', function(){
       target = $(this).attr('data-square-id');
       movePiece(color, type, location, target);
+      $('[data-valid]').off('click').removeAttr('data-valid');
     });
   });
 
@@ -53,10 +54,16 @@ function movePiece(color, type, location, target){
   if(move)
     console.log(move);
   else
-    console.log('not a legal move');
+    console.log('not a legal move');//should never happen.
+  //Update UI
   //update PGN list
   $('ul.pgn').append('<li>'+chess.history()+'</li>');
-
+  //TODO: update FEN
+  $('p.fen').text(chess.fen());
+  //turn
+  $('.turn').html(chess.turn());
+  //game board
+  $('[data-square-id="'+target+'"]').html($('[data-square-id="'+location+'"] span'));
 }
 /*
 * Create a board
@@ -102,8 +109,12 @@ function showValidMoves(args){
   //clear out previous valid moves. 
   $('[data-valid]').removeAttr('data-valid');
   var validSquares = chess.moves( {square: args[2]} );
+  console.log(validSquares);
+  //TODO: check contains +?
   for(sq in validSquares){
-    $('[data-square-id*="'+validSquares[sq].substr(-2)+'"]').attr('data-valid','true');
+    offset = validSquares[sq].indexOf('+') > -1 ? -3 : -2;
+    console.log(validSquares[sq].substr(offset, 2));
+    $('[data-square-id*="'+validSquares[sq].substr(offset, 2)+'"]').attr('data-valid','true');
   }
 }
 
