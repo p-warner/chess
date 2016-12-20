@@ -4,8 +4,8 @@
 * 
 *
 */
-
-.chessGame{display:block; width:32rem; height:32rem; margin:0 auto;}
+ 
+.chessGame{display:block; width:32rem; height:32rem; margin:0 auto; max-width:100%;}
 .board{display:block; clear:both; height:100%; width:100%; border:.45rem solid #ddd; background-size:cover; box-shadow:0 .25rem 1rem rgba(0,0,0,.55);}
 .board > span{float:left; display:block; height:12.5%; width:12.5%; position:relative;}
 .black{background:#444;}
