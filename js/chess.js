@@ -1,8 +1,11 @@
 var columns = 'abcdefgh';
-var rows = '12345678';
-
+var chess;
 $(document).ready(function(){
+  //chessjs
+  chess = new Chess('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
 
+
+  //insert spans for board
   for(var i=0, r=0; i < 64; i++){
     if(i % 8 == 0) {r++;}
     if(r % 2 == 0){
@@ -12,22 +15,24 @@ $(document).ready(function(){
     } 
     id_c = columns.charAt(i%8);
     id_r = (r-9)*-1;
-    $('.board').eq(0).append('<span data-square-id='+id_c+id_r+' class="'+c+'">'+id_c+id_r+'</span>');
+    $('.board').eq(0).append('<span data-square-id='+id_c+id_r+' class="'+c+'"></span>');
   }
 
-  initPieces();
+  //starting setup
+  //initPieces();
+  renderBoard('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2');
 
   //piece listeners
   $('span[data-piece]').on('click',function(){
-  var color, type, location;
-  
-  color = $(this).attr('data-piece').split('_')[0];
-  type = $(this).attr('data-piece').split('_')[1];
-  location = $(this).parent('[data-square-id]').attr('data-square-id');
-  console.log(color+', '+type+', '+location);
-  
-  showValidMoves([color, type, location]);
-});
+    var color, type, location;
+    
+    color = $(this).attr('data-piece').split('_')[0];
+    type = $(this).attr('data-piece').split('_')[1];
+    location = $(this).parent('[data-square-id]').attr('data-square-id');
+    console.log(color+', '+type+', '+location);
+    
+    showValidMoves([color, type, location]);
+  });
 });
 //createBoard( $('.board').eq(0) );
 
@@ -97,7 +102,22 @@ function createBoard(b){
   
 }
 
+/*
+* Renders a position based upon the fen passed to it.
+* @param Object html object to place squares in.
+* @return None
+*/
+function renderBoard(fen){
+  var c = new Chess(fen);
+  for(var i=0, r=0; i < 64; i++){
+    if(i % 8 == 0) {r++;}
+    id_c = columns.charAt(i%8);
+    id_r = (r-9)*-1;
+    if( c.get(id_c+id_r) )
+      $('[data-square-id='+id_c+id_r+']').append('<span data-piece="'+c.get(id_c+id_r).color+'_'+c.get(id_c+id_r).type+'"></span>' );
+  }
 
+}
 
 function showValidMoves(args){
   //clear out previous valid moves. 
@@ -132,3 +152,4 @@ function showValidMoves(args){
     $('[data-square-id*="'+validSquares[sq]+'"]').attr('data-valid','true');
   }
 }
+

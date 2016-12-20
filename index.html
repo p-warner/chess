@@ -5,31 +5,26 @@
       
       <title>Chess Project</title>
 
-      <!-- 
-      <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-      <link href="//cdn.rawgit.com/noelboss/featherlight/1.6.1/release/featherlight.min.css" type="text/css" rel="stylesheet" /> 
-      -->
+      <link href="css/chess.css" rel="stylesheet">
 
-      <link href="chess.css" rel="stylesheet">
-
+      <!-- backend -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+      <!-- front end -->
       <script src="//code.jquery.com/jquery-latest.js"></script>
-      <script src="//cdn.rawgit.com/noelboss/featherlight/1.6.1/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-      <script type="text/javascript" src="chess.js"></script>
+      <script src="js/chess.js"></script>
 
   </head>
   <body>
-    <ul class="players">
-      <li>Player One</li>
-      <li>Player Two</li>
-    </ul>
 
-    <div class="board"></div>
-
-
-
-
-
+  <script type="text/javascript">
     
+    //console.log( chess.ascii() );
+  </script>
+
+  <div class="chessGame">
+    <div id="game0" class="board"></div>
+  </div>
+    <!-- 
     <style type="text/css">
       form{float:left; width:25%;}
       label{display:block; width:100%;}
@@ -95,7 +90,7 @@
           $('input[name^="get_moves"]').val(response.moves);
         });
       });
-    </script>
+    </script> -->
 
   </body>
 </html>
