@@ -2,14 +2,14 @@ var columns = 'abcdefgh';
 var chess; //global chessjs object.
 
 $(document).ready(function(){
+  //window.location.reload(true);
   //chessUIjs
 
   //insert spans for board
   createBoard($('.board'));
 
-  renderfen('r1b2rk1/p1q2pp1/2pb1n1p/n7/8/2NN1B2/PPP2PP1/R1BQ1R1K b - - 3 16');
+  renderPositionFen();
 
-  //piece listeners
   addListeners();
 });
 //createBoard( $('.board').eq(0) );
@@ -45,7 +45,9 @@ function addListeners(){
     });
   });
 
-  
+  $('[data-chess*="updatePlayerName"]').on('blur', function(){
+    updatePlayers($('input[name="player_w"]').val(), $('input[name="player_b"]').val() );
+  });
 }
 
 function movePiece(color, type, location, target){
@@ -56,15 +58,19 @@ function movePiece(color, type, location, target){
   else
     console.log('not a legal move');//should never happen.
   //Update UI
-  //update PGN list
-  $('ul.pgn').append('<li>'+chess.history()+'</li>');
-  //TODO: update FEN
-  $('p.fen').text(chess.fen());
-  //turn
-  $('.turn').html(chess.turn());
-  //game board
+  updateMoveList();
+  updateFEN();
+  updatePGN();
+  updateTurn();
   $('[data-square-id="'+target+'"]').html($('[data-square-id="'+location+'"] span'));
+
+  console.log(chess.perft());
+  //is the game over?
+  if( chess.game_over() ){
+    gameOver();
+  }
 }
+
 /*
 * Create a board
 * @param JQuery Object html object to place squares in.
@@ -85,11 +91,63 @@ function createBoard(element){
 }
 
 /*
+* Update move list
+*/
+function updateMoveList(){
+  $('ul.history').html('<li>'+chess.history()+'</li>');
+}
+
+/*
+* Update players names
+*/
+function updatePlayers(white, black){
+  chess.header('White', white);
+  chess.header('Black', black);
+
+  console.log(chess.pgn()); 
+
+  if(chess.header('White'))
+   $('.player_w').text( chess.header('White') );
+ if(chess.header('Black'))
+   $('.player_b').text( chess.header('Black') );
+}
+
+/*
+* Updates FEN
+*/
+function updateFEN(){
+  $('p.fen').text(chess.fen());
+}
+
+/*
+* Updates PGN
+*/
+function updatePGN(){
+  $('p.pgn').text(chess.pgn());
+}
+
+
+/*
+* Updates ui to show which side's move it is.
+*/
+function updateTurn(){
+  var color = (chess.turn() == 'w' ? 'white' : 'black');
+  $('.turn').html(color);
+}
+
+/*
+* Updates UI to show gameover state.
+*/
+function gameOver(){
+  $('.board').css('opacity','.5');
+}
+
+/*
 * Renders a position based upon the fen passed to it.
 * @param Object html object to place squares in.
 * @return None
 */
-function renderfen(fen){
+function renderPositionFen(fen){
   chess = new Chess(fen);
   for(var i=0, r=0; i < 64; i++){
     if(i % 8 == 0) {r++;}
@@ -101,7 +159,7 @@ function renderfen(fen){
 }
 
 /*
-* Highlights squares that are valid moves.
+* Highlights squares that are valid moves based upon piece selected.
 * @param array [color, type, location]
 * @return None
 */
@@ -112,7 +170,7 @@ function showValidMoves(args){
   console.log(validSquares);
   //TODO: check contains +?
   for(sq in validSquares){
-    offset = validSquares[sq].indexOf('+') > -1 ? -3 : -2;
+    offset = validSquares[sq].indexOf('+') > -1 || validSquares[sq].indexOf('#') > -1 ? -3 : -2;
     console.log(validSquares[sq].substr(offset, 2));
     $('[data-square-id*="'+validSquares[sq].substr(offset, 2)+'"]').attr('data-valid','true');
   }
