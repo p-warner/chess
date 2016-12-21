@@ -7,12 +7,9 @@
 
       <link href="css/chess.css" rel="stylesheet">
 
-      <!-- backend -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-      <!-- front end -->
+      <script src="//cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
       <script src="//code.jquery.com/jquery-latest.js"></script>
       <script src="js/chess.js"></script>
-
   </head>
   <body>
     <span id="gid"><?php echo(uniqid()); ?></span>
@@ -20,8 +17,12 @@
     <div class="chessGame">
       <div class="board board__orentation-black"></div>
     </div>
-    <h2>Update DB</h2>
-    <p><a id="addToDB" href="#">Update DB.</a></p>
+    <p class="reorient">Reorient board</p>
+    <h2>Add to DB</h2>
+    <p><a id="addToDB" href="#">Add to DB.</a></p>
+    <h2>Get from DB</h2>
+    <input type="text" name="gameId">
+    <p><a id="getFromDB" href="#">Get from DB.</a></p>
     <h2>White</h2>
     <input type="text" name="player_w" data-chess="updatePlayerName">
     <h2>Black</h2>
@@ -34,6 +35,5 @@
     <p class="fen"></p>
     <h2>PGN</h2>
     <p class="pgn"></p>
-
   </body>
 </html>

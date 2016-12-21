@@ -22,8 +22,16 @@ function addUiListeners(){
     updatePlayers($('input[name="player_w"]').val(), $('input[name="player_b"]').val() );
   });
 
+  $('.reorient').on('click', function(){
+    $('.board').eq(0).toggleClass('board__orentation-black');
+  });
+
   $('a#addToDB').on('click', function(){
     addToDb();
+  });
+
+  $('a#getFromDB').on('click', function(){
+    getFromDb();
   });
 }
 
@@ -65,10 +73,11 @@ function addToDb(){
   var w = chess.header().White ? chess.header().White : 'unknown';
   var b = chess.header().Black ? chess.header().Black : 'unknown';
   var id = $('#gid').text();
+  var d = $('#gdt').text();
   
   var gamedata = {
     gameID: id,
-    datestarted: 'Now',
+    datestarted: d,
     result: 'none',
     datelastmove: 'Now + 5m',
     player_w: w,
@@ -93,17 +102,17 @@ function addToDb(){
   });
 }
 
-
 /*
 * Gets a gamestate from the database.
 * @param None
 * @return None - alters the state of the global chess object.
 */
 function getFromDb(){
-  var gameID = '';
+  var gameID = '585a71d44fc02';
+  //var gameID = '18';
   $.ajax({
     method: "GET",
-    url: "/chess/api/api.php/games/"+gameID
+    url: "/chess/api/api.php/games?filter=gameID,eq,"+gameID+'&transform=1'
   })
   .done(function( response ) {
     console.log(response);
