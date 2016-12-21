@@ -2,28 +2,37 @@ var columns = 'abcdefgh';
 var chess; //global chessjs object.
 
 $(document).ready(function(){
-  //window.location.reload(true);
-  //chessUIjs
 
-  //insert spans for board
   createBoard($('.board'));
 
   renderPositionFen();
 
-  addListeners();
+  addGameListeners();
+  addUiListeners();
 });
 //createBoard( $('.board').eq(0) );
 
 /*
-* Helpers
+* Adds listeners to UI elements like player names, save game, etc.
+* @param None
+* @return None
 */
+function addUiListeners(){
+  $('[data-chess*="updatePlayerName"]').on('blur', function(){
+    updatePlayers($('input[name="player_w"]').val(), $('input[name="player_b"]').val() );
+  });
+
+  $('a#addToDB').on('click', function(){
+    addToDb();
+  });
+}
 
 /*
 * Adds listeners to pieces and squares
 * @param None
 * @return None
 */
-function addListeners(){
+function addGameListeners(){
   //Show squares a piece can move to
   $('span[data-piece]').on('click',function(){
     var color, type, location, target;
@@ -44,12 +53,64 @@ function addListeners(){
       $('[data-valid]').off('click').removeAttr('data-valid');
     });
   });
+}
 
-  $('[data-chess*="updatePlayerName"]').on('blur', function(){
-    updatePlayers($('input[name="player_w"]').val(), $('input[name="player_b"]').val() );
+/*
+* Adds the current state of the game to the database.
+* @param None
+* @return None
+*/
+function addToDb(){
+
+  var w = chess.header().White ? chess.header().White : 'unknown';
+  var b = chess.header().Black ? chess.header().Black : 'unknown';
+  
+  var gamedata = {
+    gameID: 'make an ID',
+    datestarted: 'Now',
+    result: 'none',
+    datelastmove: 'Now + 5m',
+    player_w: w,
+    player_b: b,
+    fen: chess.fen(),
+    pgn: chess.pgn(),
+    turn: chess.turn(),
+    history: chess.history()+'',
+    notes: 'notes'
+  }
+
+  console.log(gamedata);
+
+  $.ajax({
+    method: "POST",
+    url: "/chess/api/api.php/games",
+    data: gamedata
+  })
+  .done(function( response ) {
+    console.log( "POST response: " + response );
+     //$('input[name^=post_response]').val(response)
   });
 }
 
+function getFromDb(){
+  var gameID = '';
+  $.ajax({
+    method: "GET",
+    url: "/chess/api/api.php/games/"+gameID
+  })
+  .done(function( response ) {
+    console.log(response);
+  });
+}
+
+/*
+* Moves a piece. Cannot handle invalid moves. Calls updates on various UI elements.
+* @param String color - b||w
+* @param String type - p, r, n, etc.
+* @param String location - valid SAN; from square
+* @param String target - valid SAN; to square
+* @return None
+*/
 function movePiece(color, type, location, target){
   //attempt to move
   var move = chess.move({ from: location, to: target });
@@ -57,6 +118,7 @@ function movePiece(color, type, location, target){
     console.log(move);
   else
     console.log('not a legal move');//should never happen.
+  
   //Update UI
   updateMoveList();
   updateFEN();
@@ -64,8 +126,6 @@ function movePiece(color, type, location, target){
   updateTurn();
   $('[data-square-id="'+target+'"]').html($('[data-square-id="'+location+'"] span'));
 
-  console.log(chess.perft());
-  //is the game over?
   if( chess.game_over() ){
     gameOver();
   }
@@ -99,17 +159,20 @@ function updateMoveList(){
 
 /*
 * Update players names
+* TODO: validate playernames, maxchar, XSS, etc.
+* @param String white
+* @param String black
+* @return None
 */
 function updatePlayers(white, black){
-  chess.header('White', white);
-  chess.header('Black', black);
-
-  console.log(chess.pgn()); 
-
-  if(chess.header('White'))
-   $('.player_w').text( chess.header('White') );
- if(chess.header('Black'))
-   $('.player_b').text( chess.header('Black') );
+  if(white !== ''){
+    chess.header('White', white);
+    $('.player_w').text( chess.header('White') );
+  }
+  if(black !== ''){
+    chess.header('Black', black);
+    $('.player_b').text( chess.header('Black') );
+  }
 }
 
 /*
@@ -144,7 +207,7 @@ function gameOver(){
 
 /*
 * Renders a position based upon the fen passed to it.
-* @param Object html object to place squares in.
+* @param String fen - valid FEN string
 * @return None
 */
 function renderPositionFen(fen){

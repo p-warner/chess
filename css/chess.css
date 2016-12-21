@@ -37,8 +37,3 @@ ul.players li:nth-child(2){float:right; color:#fff; background:#222; border:1px 
 [data-piece^="bb"]{background-image:url(../svg/bb.svg);}
 [data-piece^="bq"]{background-image:url(../svg/bq.svg);}
 [data-piece^="bk"]{background-image:url(../svg/bk.svg);}
-
-/*Featherligh override*/
-.featherlight .featherlight-content{background:rgba(0,0,0,.85); padding:3rem; border:.5rem solid #eee;}
-.featherlight .featherlight-close-icon{background:#eee;}
-.featherlight{box-sizing:border-box;}

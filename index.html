@@ -17,8 +17,10 @@
   <body>
 
   <div class="chessGame">
-    <div id="game0" class="board board__orentation-black"></div>
+    <div class="board board__orentation-black"></div>
   </div>
+  <h2>Update DB</h2>
+  <p><a id="updateDB" href="#">Update DB.</a></p>
   <h2>White</h2>
   <input type="text" name="player_w" data-chess="updatePlayerName">
   <h2>Black</h2>
@@ -31,74 +33,5 @@
   <p class="fen"></p>
   <h2>PGN</h2>
   <p class="pgn"></p>
-  
-    <!-- 
-    <style type="text/css">
-      form{float:left; width:25%;}
-      label{display:block; width:100%;}
-    </style>
-    <form>
-      <fieldset>
-      <legend>POST</legend>
-      <label>White<br>
-      <input type="text" name="player_white"></label>
-      <label>Black<br>
-      <input type="text" name="player_black"></label>
-      <label>Moves<br>
-      <input type="text" name="moves"></label>
-      <a href="#" class="post">post to api</a>
-      <label>Response from api<br>
-      <input type="text" name="post_response" disabled="true"></label>
-      </fieldset>
-    </form>
-    <script type="text/javascript">
-      $('.post').on('click', function(){
-        $.ajax({
-          method: "POST",
-          url: "/chess/api/api.php/games",
-          data: {//serialize this
-            player_white: $('input[name^=player_white]').val(), 
-            player_black: $('input[name^=player_black]').val(), 
-            moves: $('input[name^=moves]').val() }
-        })
-        .done(function( response ) {
-          console.log( "POST response: " + response );
-           $('input[name^=post_response]').val(response)
-        });
-      });
-    </script>
-
-    <form>
-      <fieldset>
-      <legend>GET</legend>
-      <label>id<br>
-      <input type="text" name="game_id"></label>
-      <a href="#" class="get">get from api</a>
-      <label>Response from for id<br>
-      <input type="text" name="get_response" disabled="true" style="width:100%;"></label>
-      <label>player_white<br>
-      <input type="text" name="get_player_white" disabled="true" style="width:100%;"></label>
-      <label>player_black<br>
-      <input type="text" name="get_player_black" disabled="true" style="width:100%;"></label>
-      <label>moves<br>
-      <input type="text" name="get_moves" disabled="true" style="width:100%;"></label>
-      </fieldset>
-    </form>
-    <script type="text/javascript">
-      $('.get').on('click', function(){
-        $('input[name^="get_response"]').val($('input[name^=game_id]').val());
-        $.ajax({
-          method: "GET",
-          url: "/chess/api/api.php/games/"+$('input[name^=game_id]').val()
-        })
-        .done(function( response ) {
-          console.log(response);
-          $('input[name^="get_player_white"]').val(response.player_white);
-          $('input[name^="get_player_black"]').val(response.player_black);
-          $('input[name^="get_moves"]').val(response.moves);
-        });
-      });
-    </script> -->
-
   </body>
 </html>
