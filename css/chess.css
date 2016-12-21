@@ -14,7 +14,7 @@
 .board__orentation-black{transform:rotate(180deg);}
 .board__orentation-black [data-piece]{transform:rotate(180deg);}
 
-
+.hide{display:none;}
 /*ul{font: 100 1em/1.2em sans-serif; display:block; margin:0 auto; width:24rem; padding:1rem 0; text-transform:uppercase;}
 ul.players li{float:left; list-style-type:none; padding:1rem; margin-bottom:1rem;}
 ul.players li:nth-child(1){float:left; background:#eee; border:1px solid #ccc; border-radius:.25rem;}

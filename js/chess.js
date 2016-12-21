@@ -61,12 +61,13 @@ function addGameListeners(){
 * @return None
 */
 function addToDb(){
-
+  console.log('addtodb');
   var w = chess.header().White ? chess.header().White : 'unknown';
   var b = chess.header().Black ? chess.header().Black : 'unknown';
+  var id = $('#gid').text();
   
   var gamedata = {
-    gameID: 'make an ID',
+    gameID: id,
     datestarted: 'Now',
     result: 'none',
     datelastmove: 'Now + 5m',
@@ -92,6 +93,12 @@ function addToDb(){
   });
 }
 
+
+/*
+* Gets a gamestate from the database.
+* @param None
+* @return None - alters the state of the global chess object.
+*/
 function getFromDb(){
   var gameID = '';
   $.ajax({

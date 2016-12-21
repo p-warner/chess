@@ -2249,15 +2249,8 @@ class PHP_CRUD_API {
 // }
 
 // uncomment the lines below when running in stand-alone mode:
-
-$api = new PHP_CRUD_API(array(
-	'dbengine'=>'MySQL',
-	'hostname'=>'localhost',
-	'username'=>'root',
-	'password'=>'root',
-	'database'=>'chess',
-	'charset'=>'utf8'
-));
+include('private_mysql.php');
+$api = new PHP_CRUD_API($private_mysqlInformation);
 $api->executeCommand();
 
 // For Microsoft SQL Server 2012 use:
