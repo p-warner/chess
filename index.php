@@ -12,7 +12,6 @@
       <script src="js/chess.js"></script>
   </head>
   <body>
-    <span id="gid"><?php echo(uniqid()); ?></span>
     <span id="gdt"><?php date_default_timezone_set('US/Eastern'); echo(date('Y-m-d H:i:s', time())); ?></span>
     <div class="chessGame">
       <div class="board board__orentation-black"></div>

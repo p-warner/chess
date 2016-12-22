@@ -74,13 +74,10 @@ function addToDb(){
   console.log('addtodb');
   var w = chess.header().White ? chess.header().White : 'unknown';
   var b = chess.header().Black ? chess.header().Black : 'unknown';
-  var id = $('#gid').text();
   var d = $('#gdt').text();
-  
-  $('.board').attr('data-chess-id', id);
 
   var gamedata = {
-    gameID: id,
+    gameID: '',
     datestarted: d,
     result: 'none',
     datelastmove: 'Now + 5m',
@@ -100,9 +97,9 @@ function addToDb(){
     url: "/chess/api/api.php/games",
     data: gamedata
   })
-  .done(function( response ) {
+  .done(function(response) {
     console.log( "POST response: " + response );
-     //$('input[name^=post_response]').val(response)
+    $('.board').attr('data-chess-game-id',response);
   });
 }
 
@@ -113,7 +110,8 @@ function addToDb(){
 */
 function updateDb(){
   console.log('updateDb');
-  var gameID = $('.board').attr('data-chess-id');
+  var gameID = $('.board').attr('data-chess-game-id');
+  console.log(gameID);
   var w = chess.header().White ? chess.header().White : 'unknown';
   var b = chess.header().Black ? chess.header().Black : 'unknown';
 
@@ -126,19 +124,18 @@ function updateDb(){
     pgn: chess.pgn(),
     turn: chess.turn(),
     history: chess.history()+'',
-    notes: 'notes'
+    notes: 'Dude?'
   }
 
-  console.log(gamedata);
+  //console.log(gamedata);
 
   $.ajax({
     method: "PUT",
-    url: "/chess/api/api.php/games?filter=gameID,eq,"+gameID,
+    url: "/chess/api/api.php/games/"+gameID,
     data: gamedata
   })
   .done(function( response ) {
     console.log( "POST response: " + response );
-     //$('input[name^=post_response]').val(response)
   });
 }
 
@@ -153,17 +150,15 @@ function getFromDb(){
   //var gameID = '18';
   $.ajax({
     method: "GET",
-    url: "/chess/api/api.php/games?filter=gameID,eq,"+gameID+'&transform=1'
+    url: "/chess/api/api.php/games/"+gameID+"/&transform=1"
   })
   .done(function( response ) {
     //console.log(response);
     //console.log('fen: '+response.games[0].fen);
-
     //renderPositionFen(response.games[0].fen);
-
-    renderPositionPgn(response.games[0].pgn);
+    $('.board').attr('data-chess-game-id',gameID);
+    renderPositionPgn(response.pgn);
     addGameListeners();
-
   });
 }
 
