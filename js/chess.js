@@ -4,9 +4,7 @@ var chess; //global chessjs object.
 $(document).ready(function(){
 
   createBoard($('.board'));
-
   renderPositionFen();
-
   addGameListeners();
   addUiListeners();
 });
@@ -28,6 +26,10 @@ function addUiListeners(){
 
   $('a#addToDB').on('click', function(){
     addToDb();
+  });
+
+  $('a#updateDB').on('click', function(){
+    updateDb();
   });
 
   $('a#getFromDB').on('click', function(){
@@ -75,6 +77,8 @@ function addToDb(){
   var id = $('#gid').text();
   var d = $('#gdt').text();
   
+  $('.board').attr('data-chess-id', id);
+
   var gamedata = {
     gameID: id,
     datestarted: d,
@@ -103,19 +107,63 @@ function addToDb(){
 }
 
 /*
+* Updates the db with current game state
+* @param None
+* @return None
+*/
+function updateDb(){
+  console.log('updateDb');
+  var gameID = $('.board').attr('data-chess-id');
+  var w = chess.header().White ? chess.header().White : 'unknown';
+  var b = chess.header().Black ? chess.header().Black : 'unknown';
+
+  var gamedata = {
+    result: 'none',
+    datelastmove: 'Now + 5m',
+    player_w: w,
+    player_b: b,
+    fen: chess.fen(),
+    pgn: chess.pgn(),
+    turn: chess.turn(),
+    history: chess.history()+'',
+    notes: 'notes'
+  }
+
+  console.log(gamedata);
+
+  $.ajax({
+    method: "PUT",
+    url: "/chess/api/api.php/games?filter=gameID,eq,"+gameID,
+    data: gamedata
+  })
+  .done(function( response ) {
+    console.log( "POST response: " + response );
+     //$('input[name^=post_response]').val(response)
+  });
+}
+
+/*
 * Gets a gamestate from the database.
 * @param None
 * @return None - alters the state of the global chess object.
 */
 function getFromDb(){
-  var gameID = '585a71d44fc02';
+  var gameID = $('input[name="get_gameId"]').val();
+  console.log(gameID);
   //var gameID = '18';
   $.ajax({
     method: "GET",
     url: "/chess/api/api.php/games?filter=gameID,eq,"+gameID+'&transform=1'
   })
   .done(function( response ) {
-    console.log(response);
+    //console.log(response);
+    //console.log('fen: '+response.games[0].fen);
+
+    //renderPositionFen(response.games[0].fen);
+
+    renderPositionPgn(response.games[0].pgn);
+    addGameListeners();
+
   });
 }
 
@@ -227,7 +275,38 @@ function gameOver(){
 * @return None
 */
 function renderPositionFen(fen){
-  chess = new Chess(fen);
+  console.log(!chess in window);
+  if(!(chess in window)){
+    chess.clear();
+    $('[data-piece]').remove();
+    chess.load(fen);
+  }else{
+    chess = new Chess();
+  }
+  
+  for(var i=0, r=0; i < 64; i++){
+    if(i % 8 == 0) {r++;}
+    id_c = columns.charAt(i%8);
+    id_r = (r-9)*-1;
+    if( chess.get(id_c+id_r) )
+      $('[data-square-id='+id_c+id_r+']').append('<span data-piece="'+chess.get(id_c+id_r).color+chess.get(id_c+id_r).type+'"></span>' );
+  }
+}
+
+/*
+* Renders a position based upon the fen passed to it.
+* @param String fen - valid FEN string
+* @return None
+*/
+function renderPositionPgn(pgn){
+  if(!(chess in window)){
+    chess.clear();
+    $('[data-piece]').remove();
+    chess.load_pgn(pgn);
+  }else{
+    chess = new Chess();
+  }
+  
   for(var i=0, r=0; i < 64; i++){
     if(i % 8 == 0) {r++;}
     id_c = columns.charAt(i%8);

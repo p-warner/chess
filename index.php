@@ -20,8 +20,10 @@
     <p class="reorient">Reorient board</p>
     <h2>Add to DB</h2>
     <p><a id="addToDB" href="#">Add to DB.</a></p>
+    <h2>Update DB</h2>
+    <p><a id="updateDB" href="#">update DB.</a></p>
     <h2>Get from DB</h2>
-    <input type="text" name="gameId">
+    <input type="text" name="get_gameId">
     <p><a id="getFromDB" href="#">Get from DB.</a></p>
     <h2>White</h2>
     <input type="text" name="player_w" data-chess="updatePlayerName">
