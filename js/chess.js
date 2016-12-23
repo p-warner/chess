@@ -158,6 +158,11 @@ function getFromDb(){
     //renderPositionFen(response.games[0].fen);
     $('.board').attr('data-chess-game-id',gameID);
     renderPositionPgn(response.pgn);
+    updateMoveList();
+    updatePlayers(response.player_w, response.player_b);
+    updateFEN();
+    updatePGN();
+    updateTurn();
     addGameListeners();
   });
 }
