@@ -6,6 +6,7 @@
       <title>Chess Project</title>
 
       <link href="css/chess.css" rel="stylesheet">
+      <link href="css/font-awesome.css" rel="stylesheet">
 
       <script src="//cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
       <script src="//code.jquery.com/jquery-latest.js"></script>
@@ -13,14 +14,18 @@
   </head>
   <body>
     <span id="gdt"><?php date_default_timezone_set('US/Eastern'); echo(date('Y-m-d H:i:s', time())); ?></span>
+    
     <div class="chessGame">
-      <div class="board board__orentation-black"></div>
+      <div class="board "></div>
     </div>
-    <p class="reorient">Reorient board</p>
-    <h2>Add to DB</h2>
-    <p><a id="addToDB" href="#">Add to DB.</a></p>
+
+    <p><input id="orientation" type="checkbox" name="orientation"><label class="reorient button" for="orientation"><span class="fa fa-refresh fa-fw button--hover-flip"></span> Reorient board</label></p>
+    
+    <p><label id="addToDB" class="button" href="#"><span class="fa fa-database fa-fw"></span> Add to database</label></p>
+
     <h2>Update DB</h2>
     <p><a id="updateDB" href="#">update DB.</a></p>
+
     <h2>Get from DB</h2>
     <input type="text" name="get_gameId">
     <p><a id="getFromDB" href="#">Get from DB.</a></p>
