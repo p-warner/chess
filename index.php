@@ -13,33 +13,65 @@
       <script src="js/chess.js"></script>
   </head>
   <body>
-    <span id="gdt"><?php date_default_timezone_set('US/Eastern'); echo(date('Y-m-d H:i:s', time())); ?></span>
     
-    <div class="chessGame">
-      <div class="board "></div>
-    </div>
-
-    <p><input id="orientation" type="checkbox" name="orientation"><label class="reorient button" for="orientation"><span class="fa fa-refresh fa-fw button--hover-flip"></span> Reorient board</label></p>
     
-    <p><label id="addToDB" class="button" href="#"><span class="fa fa-database fa-fw"></span> Add to database</label></p>
 
-    <h2>Update DB</h2>
-    <p><a id="updateDB" href="#">update DB.</a></p>
+    <header>
+      <h1>Chess</h1>
+      <span class="hide" id="gdt"><?php date_default_timezone_set('US/Eastern'); echo(date('Y-m-d H:i:s', time())); ?></span>
+    </header>
 
-    <h2>Get from DB</h2>
-    <input type="text" name="get_gameId">
-    <p><a id="getFromDB" href="#">Get from DB.</a></p>
-    <h2>White</h2>
-    <input type="text" name="player_w" data-chess="updatePlayerName">
-    <h2>Black</h2>
-    <input type="text" name="player_b" data-chess="updatePlayerName">
-    <h2>TURN</h2>
-    <p><span class="turn"></span></p>
-    <h2>History</h2>
-    <ul class="history"></ul>
-    <h2>FEN</h2>
-    <p class="fen"></p>
-    <h2>PGN</h2>
-    <p class="pgn"></p>
+    <aside>
+      <p>
+        <label id="addToDB" class="button"><span class="fa fa-database fa-fw"></span> Add to database</label>
+
+        <label id="updateDB" class="button"><span class="fa fa-database fa-fw"></span> update DB with current game</label>
+
+        <label id="getFromDB" class="button"><span class="fa fa-database fa-fw"></span> get game by id</label> 
+        <input type="text" name="get_gameId" placeholder="ex. 32" maxlength="20" >
+      </p>
+
+      
+    </aside>
+
+    <aside class="f75">
+      <p class="f50"><label for="player_w"><span class="uc sm"><span class="fa fa-user-circle fa-fw"></span> White pieces</span><br><input id="player_w" type="text" name="player_w" data-chess="updatePlayerName" placeholder="Name"></label></p>
+
+      <p class="f50"><label for="player_b"><span class="uc sm"><span class="fa fa-user fa-fw"></span> Black pieces</span><br><input id="player_b" type="text" name="player_b" data-chess="updatePlayerName" placeholder="Name"></label></p>
+
+      <section class="chessGame">
+        <div class="board"></div>
+      </section>
+
+    </aside>
+
+    <aside class="f25">
+      <span class="turn"></span></p>
+      <p><input id="orientation" type="checkbox" name="orientation"><label class="reorient button" for="orientation"><span class="fa fa-refresh fa-fw button--hover-flip"></span> Reorient board</label> 
+    </aside>
+
+    <footer class="f100">
+      <aside class="f50">
+        <p><span class="fa fa-terminal"></span> FEN</p>
+        <p class="fen sm">&nbsp;</p>
+      </aside>
+      <aside class="f50">
+        <p><span class="fa fa-list-ol"></span> PGN</p>
+        <p class="pgn sm"></p>
+      </aside>
+      <ul class="history hide"></ul>
+      
+    </footer>
+
+    
+
+    
+    
+    
+
+
+    
+
+    
   </body>
 </html>

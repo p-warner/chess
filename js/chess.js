@@ -5,10 +5,11 @@ $(document).ready(function(){
 
   createBoard($('.board'));
   renderPositionFen();
+  updateFEN();
+  updatePGN();
   addGameListeners();
   addUiListeners();
 });
-//createBoard( $('.board').eq(0) );
 
 /*
 * Adds listeners to UI elements like player names, save game, etc.
@@ -24,15 +25,15 @@ function addUiListeners(){
     $('.board').eq(0).toggleClass('board__orentation-black');
   });
 
-  $('a#addToDB').on('click', function(){
+  $('#addToDB').on('click', function(){
     addToDb();
   });
 
-  $('a#updateDB').on('click', function(){
+  $('#updateDB').on('click', function(){
     updateDb();
   });
 
-  $('a#getFromDB').on('click', function(){
+  $('#getFromDB').on('click', function(){
     getFromDb();
   });
 }
@@ -259,7 +260,7 @@ function updatePGN(){
 */
 function updateTurn(){
   var color = (chess.turn() == 'w' ? 'white' : 'black');
-  $('.turn').html(color);
+  $('.turn').html(color+' to move');
 }
 
 /*

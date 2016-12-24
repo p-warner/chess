@@ -4,9 +4,28 @@
 * 
 *
 */
-*{box-sizing:border-box; padding:0;margin:0;}
-p,ul{font: 1em/1.7em sans-serif; color:#444; padding:1rem 0;}
+*{box-sizing:border-box; padding:0; margin:0;}
 
+/*
+* Layout 
+* Super simple grid.
+*/
+.f100,.f50,.f75,.f25{float:left; padding:.5rem;}
+.f100{width:100%;}
+.f75{width:75%;}
+.f50{width:50%;}
+.f25{width:25%;}
+
+
+/*
+* Text, Block
+*/
+p,ul,input,label{font: 1em/1.6em sans-serif; color:#444; padding:1rem 0;}
+/*
+* Text-modifier
+*/
+.sm{font-size:85%;}
+.fen,.pgn{background:#eee; color:444; border:1px solid #ccc; border-radius:.25rem; color:#444; padding:1rem .5rem;}
 
 .chessGame{display:block; width:32rem; height:32rem; margin:0 auto; max-width:100%;}
 .board{display:block; clear:both; height:100%; width:100%; border:.45rem solid #ddd; background-size:cover; box-shadow:0 .25rem 1rem rgba(0,0,0,.55); transition:all .35s ease-in-out;}
@@ -23,16 +42,27 @@ p,ul{font: 1em/1.7em sans-serif; color:#444; padding:1rem 0;}
 ul.players li{float:left; list-style-type:none; padding:1rem; margin-bottom:1rem;}
 ul.players li:nth-child(1){float:left; background:#eee; border:1px solid #ccc; border-radius:.25rem;}
 ul.players li:nth-child(2){float:right; color:#fff; background:#222; border:1px solid #000; border-radius:.25rem;}
-
 */
 
-input[name="orientation"]{display:none;}
-input[name="orientation"]:checked + label.reorient{background:#444; color:#fff; border-radius:.25rem;}
-
-.button{padding:1rem; background:#eee; border:1px solid #ccc; border-radius:.25rem;  cursor:pointer;  font-weight:500; text-transform:uppercase; transition:all .35s ease-in-out;}
+/*
+* Button, block
+*/
+.button{padding:1rem; background:#eee; border:1px solid #ccc; border-radius:.25rem;  cursor:pointer;  font-weight:500; text-transform:uppercase; transition:all .35s ease-in-out; white-space:nowrap; display:inline-block;}
 .button:hover{background:#fff; }
 .button:active{background:#444; color:#fff;}
 .button:hover span.button--hover-flip{transform:rotate(180deg); transition:all .35s ease-in-out;}
+
+	/* Orientation button */
+	input[name="orientation"]{display:none;}
+	input[name="orientation"]:checked + label.reorient{background:#444; color:#fff; border-radius:.25rem;}
+
+/*
+* Form, block
+*/
+input{padding:.5rem .5rem; border:1px solid #ccc; border-bottom:3px solid #ccc; border-radius:.25rem;}
+input[name="get_gameId"]{width:5rem;}	
+label{text-transform:uppercase;}
+
 
 
 [data-valid*="true"]:after{content:''; display:block; width:100%; height:100%; background:rgba(0,255,0,.5) center center no-repeat; position:absolute; top:0; bottom:0; left:0; right:0;}
