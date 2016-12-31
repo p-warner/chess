@@ -23,6 +23,16 @@
 
     <aside>
       <p>
+        <input type="text" name="user" placeholder="user" >
+        <input type="text" name="password" placeholder="password" >
+        <label id="authenticate" class="button"><span class="fa fa-database fa-fw"></span> Authenticate with API and get token</label>
+      </p>
+
+      
+    </aside>
+
+    <aside>
+      <p>
         <label id="addToDB" class="button"><span class="fa fa-database fa-fw"></span> Add to database</label>
 
         <label id="updateDB" class="button"><span class="fa fa-database fa-fw"></span> update DB with current game</label>

@@ -1,5 +1,6 @@
 var columns = 'abcdefgh';
 var chess; //global chessjs object.
+var token;
 
 $(document).ready(function(){
 
@@ -10,6 +11,31 @@ $(document).ready(function(){
   addGameListeners();
   addUiListeners();
 });
+
+/*
+* Gets a token to use with API calls.
+* @param None
+* @return None
+*/
+function authenticate(){
+
+  var logindata = {
+    username: $('[name="user"]').val(),
+    password: $('[name="password"]').val()
+  }
+
+  console.log(logindata);
+
+  $.ajax({
+    method: "POST",
+    url: "/chess/api/api.php/",
+    data: logindata
+  })
+  .done(function(response) {
+    console.log( "POST response: " + response );
+    token = response;
+  });
+}
 
 /*
 * Adds listeners to UI elements like player names, save game, etc.
@@ -35,6 +61,10 @@ function addUiListeners(){
 
   $('#getFromDB').on('click', function(){
     getFromDb();
+  });
+
+  $('#authenticate').on('click', function(){
+    authenticate();
   });
 }
 
@@ -95,7 +125,7 @@ function addToDb(){
 
   $.ajax({
     method: "POST",
-    url: "/chess/api/api.php/games",
+    url: "/chess/api/api.php/games?csrf="+token,
     data: gamedata
   })
   .done(function(response) {
@@ -132,7 +162,7 @@ function updateDb(){
 
   $.ajax({
     method: "PUT",
-    url: "/chess/api/api.php/games/"+gameID,
+    url: "/chess/api/api.php/games/"+gameID+"?csrf="+token,
     data: gamedata
   })
   .done(function( response ) {
@@ -151,7 +181,7 @@ function getFromDb(){
   //var gameID = '18';
   $.ajax({
     method: "GET",
-    url: "/chess/api/api.php/games/"+gameID+"/&transform=1"
+    url: "/chess/api/api.php/games/"+gameID+"/?csrf="+token+"&transform=1"
   })
   .done(function( response ) {
     //console.log(response);
