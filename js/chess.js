@@ -207,20 +207,34 @@ function getFromDb(){
 * @return None
 */
 function movePiece(color, type, location, target){
-  //attempt to move
-  var move = chess.move({ from: location, to: target });
-  if(move)
-    console.log(move);
-  else
-    console.log('not a legal move');//should never happen.
+  if(! chess.move({ from: location, to: target }) )
+    console.log('not a legal move');
   
+  if( getLastMove() == 'O-O'){
+    if(color == 'w')
+      $('[data-square-id="f1"]').html( $('[data-square-id="h1"] span') );
+    else
+      $('[data-square-id="f8"]').html( $('[data-square-id="h8"] span') );
+  }
+  if( getLastMove() == 'O-O-O'){
+    if(color == 'w')
+      $('[data-square-id="d1"]').html( $('[data-square-id="a1"] span') );
+    else
+      $('[data-square-id="d8"]').html( $('[data-square-id="a8"] span') );
+  }
+
+  
+
   //Update UI
   updateMoveList();
   updateFEN();
   updatePGN();
   updateTurn();
-  $('[data-square-id="'+target+'"]').html($('[data-square-id="'+location+'"] span'));
 
+  //update board
+  $('[data-square-id="'+target+'"]').html( $('[data-square-id="'+location+'"] span') );
+
+  //Gameover?
   if( chess.game_over() ){
     gameOver();
   }
@@ -281,7 +295,7 @@ function updateFEN(){
 * Updates PGN
 */
 function updatePGN(){
-  $('p.pgn').text(chess.pgn());
+  $('p.pgn').text( chess.pgn({newline_char: '<br />'}));
 }
 
 
@@ -306,7 +320,6 @@ function gameOver(){
 * @return None
 */
 function renderPositionFen(fen){
-  console.log(!chess in window);
   if(!(chess in window)){
     chess.clear();
     $('[data-piece]').remove();
@@ -357,11 +370,38 @@ function showValidMoves(args){
   $('[data-valid]').removeAttr('data-valid');
   var validSquares = chess.moves( {square: args[2]} );
   console.log(validSquares);
-  //TODO: check contains +?
+  //TODO: check contains +,-(castle),=(promotion)?
   for(sq in validSquares){
-    offset = validSquares[sq].indexOf('+') > -1 || validSquares[sq].indexOf('#') > -1 ? -3 : -2;
-    console.log(validSquares[sq].substr(offset, 2));
-    $('[data-square-id*="'+validSquares[sq].substr(offset, 2)+'"]').attr('data-valid','true');
+    switch(validSquares[sq]){
+      case 'O-O':
+        if(chess.turn() == 'w')
+          $('[data-square-id*="g1"]').attr('data-valid','true');
+        else
+          $('[data-square-id*="g8"]').attr('data-valid','true');
+        break;
+      case 'O-O-O':
+        if(chess.turn() == 'w')
+          $('[data-square-id*="c1"]').attr('data-valid','true');
+        else
+          $('[data-square-id*="c8"]').attr('data-valid','true');
+        break;
+      default:
+        //+ and # add a character to the end of the algebraic notation which produces an invalid square ID. We offset the trailing + or #
+        offset = validSquares[sq].indexOf('+') > -1 || validSquares[sq].indexOf('#') > -1 ? -3 : -2;
+        console.log(validSquares[sq].substr(offset, 2));
+        $('[data-square-id*="'+validSquares[sq].substr(offset, 2)+'"]').attr('data-valid','true');
+    }
+
+      
+    
   }
 }
 
+/*
+* Returns the last move in algabraic notation.
+* @param None
+* @return String  
+*/
+function getLastMove(){
+  return chess.pgn().substr( chess.pgn().lastIndexOf(' ')+1, chess.pgn().length );
+}
