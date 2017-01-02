@@ -207,32 +207,66 @@ function getFromDb(){
 * @return None
 */
 function movePiece(color, type, location, target){
-  if(! chess.move({ from: location, to: target }) )
+  var m = chess.move({ from: location, to: target });
+  console.log(m);
+  if(!m)
     console.log('not a legal move');
-  
-  if( getLastMove() == 'O-O'){
-    if(color == 'w')
-      $('[data-square-id="f1"]').html( $('[data-square-id="h1"] span') );
-    else
-      $('[data-square-id="f8"]').html( $('[data-square-id="h8"] span') );
-  }
-  if( getLastMove() == 'O-O-O'){
-    if(color == 'w')
-      $('[data-square-id="d1"]').html( $('[data-square-id="a1"] span') );
-    else
-      $('[data-square-id="d8"]').html( $('[data-square-id="a8"] span') );
-  }
 
-  
+  /* flags
+  'n' - a non-capture
+  'b' - a pawn push of two squares
+  'e' - an en passant capture
+  'c' - a standard capture
+  'p' - a promotion
+  'k' - kingside castling
+  'q' - queenside castling
+  */
+
+  $('[data-square-id="'+target+'"]').html( $('[data-square-id="'+location+'"] span') );
+
+  switch(m.flags){
+    case 'k':
+      if(m.color == 'w')
+        $('[data-square-id="f1"]').html( $('[data-square-id="h1"] span') );
+      else
+        $('[data-square-id="f8"]').html( $('[data-square-id="h8"] span') );
+      break;
+    
+    case 'q':
+      if(m.color == 'w')
+        $('[data-square-id="d1"]').html( $('[data-square-id="a1"] span') );
+      else
+        $('[data-square-id="d8"]').html( $('[data-square-id="a8"] span') );
+      break;
+    
+    case 'e':
+      //en passant TODO
+      if(m.color == 'w'){
+        console.log( parseInt(m.san.substr(-2).charAt(1))-1 );
+        console.log( m.san.substr(-2).charAt(0) );
+        var t = m.san.substr(-2).charAt(0)+''+(parseInt(m.san.substr(-2).charAt(1))-1);
+      }else{
+        var t = m.san.substr(-2).charAt(0)+''+(parseInt(m.san.substr(-2).charAt(1))+1);
+      }
+      console.log(t);
+      $('[data-square-id="'+t+'"]').html( '' );
+      break;
+
+    case 'c':
+      //capture
+      break;
+
+    case 'q':
+      //promotion
+      break;
+      
+  }
 
   //Update UI
   updateMoveList();
   updateFEN();
   updatePGN();
   updateTurn();
-
-  //update board
-  $('[data-square-id="'+target+'"]').html( $('[data-square-id="'+location+'"] span') );
 
   //Gameover?
   if( chess.game_over() ){
