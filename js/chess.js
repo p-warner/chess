@@ -3,7 +3,6 @@ var chess; //global chessjs object.
 var token;
 
 $(document).ready(function(){
-
   createBoard($('.board'));
   renderPositionFen();
   updateFEN();
@@ -240,20 +239,15 @@ function movePiece(color, type, location, target){
       break;
     
     case 'e':
-      //en passant TODO
-      if(m.color == 'w'){
-        console.log( parseInt(m.san.substr(-2).charAt(1))-1 );
-        console.log( m.san.substr(-2).charAt(0) );
+      if(m.color == 'w')
         var t = m.san.substr(-2).charAt(0)+''+(parseInt(m.san.substr(-2).charAt(1))-1);
-      }else{
+      else
         var t = m.san.substr(-2).charAt(0)+''+(parseInt(m.san.substr(-2).charAt(1))+1);
-      }
-      console.log(t);
       $('[data-square-id="'+t+'"]').html( '' );
       break;
 
     case 'c':
-      //capture
+      //capture,place in jail
       break;
 
     case 'q':
