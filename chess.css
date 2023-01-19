@@ -5,6 +5,8 @@
 *
 */
 
+/*Comment added by jcompt  */
+
 .chessContainer{display:block; width:32rem; height:32rem; margin:0 auto; overflow:auto; background:#f0f;}
 .board{display:block; clear:both; height:100%; width:100%; border:.45rem solid #ddd; box-shadow:0 .25rem 1rem rgba(0,0,0,.55);}
 .board > span{float:left; display:block; height:2rem; width:2rem; position:relative;}
